@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CommandName, Win32Command } from '../models/command';
+import { CommandName, LinuxCommand, Win32Command } from '../models/command';
 import { CommandExecutor } from '../utils/command-executor';
 
 @Injectable()
@@ -26,6 +26,9 @@ export class CommandService {
     if (platform === 'win32') {
       const win32Command = Win32Command.fromName(commandName);
       return this.commandExecutor.executeCommand(win32Command.command, options);
+    } else if (platform === 'linux') {
+      const linuxCommand = LinuxCommand.fromName(commandName);
+      return this.commandExecutor.executeCommand(linuxCommand.command, options);
     } else {
       throw new Error(`Unsupported platform: ${platform}`);
     }

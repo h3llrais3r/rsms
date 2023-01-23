@@ -1,6 +1,5 @@
 export class CommandRequest {
   public command: string;
-  public encoding?: string;
 }
 
 export class CommandResponse {
@@ -65,6 +64,31 @@ export class Win32Command extends PlatformCommand {
   // Helper to find the correct command based on the command name
   public static fromName(name: CommandName): Win32Command {
     for (const cmd of Win32Command.values) {
+      if (cmd.name === name) {
+        return cmd;
+      }
+    }
+    throw new Error(`Unsupported command name: ${name}`);
+  }
+}
+
+export class LinuxCommand extends PlatformCommand {
+  // Keep at first line to be sure it's initialized before the different commands
+  private static values: LinuxCommand[] = [];
+
+  // All commands imply no timeout
+  public static SHUTDOWN = new LinuxCommand(CommandName.SHUTDOWN, 'sudo shutdown -h');
+  public static RESTART = new LinuxCommand(CommandName.RESTART, 'sudo shutdown -r');
+  public static SLEEP = new LinuxCommand(CommandName.SLEEP, 'sudo systemctl suspend');
+
+  constructor(name: CommandName, command: string) {
+    super(name, command);
+    LinuxCommand.values.push(this);
+  }
+
+  // Helper to find the correct command based on the command name
+  public static fromName(name: CommandName): LinuxCommand {
+    for (const cmd of LinuxCommand.values) {
       if (cmd.name === name) {
         return cmd;
       }
