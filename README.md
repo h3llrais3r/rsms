@@ -5,8 +5,6 @@ A simple rest api service to handle system services remotely.<br>
 
 ## Implemented services
 
----
-
 ### <ins>Windows</ins>
 
 - system shutdown
@@ -27,15 +25,11 @@ Be aware that as of now, every command can be executed on your system via the ap
 
 ## Installation
 
----
-
 ```bash
 $ npm install
 ```
 
 ## Running the app
-
----
 
 ```bash
 # development
@@ -49,7 +43,5 @@ $ npm run start:prod
 ```
 
 ## License
-
----
 
 Nest is [MIT licensed](LICENSE).
