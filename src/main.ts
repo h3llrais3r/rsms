@@ -22,9 +22,9 @@ function createLoggerInstance(loglevel: string): Logger {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get<ConfigService<AppConfig>>(ConfigService);
-  app.useLogger(WinstonModule.createLogger({ instance: createLoggerInstance(configService.getOrThrow('logLevel')) }));
-  app.setGlobalPrefix(configService.getOrThrow('basePath'));
-  await app.listen(configService.getOrThrow('port'));
+  const configService = app.get<ConfigService<AppConfig, true>>(ConfigService);
+  app.useLogger(WinstonModule.createLogger({ instance: createLoggerInstance(configService.get<string>('LOGLEVEL')) }));
+  app.setGlobalPrefix(configService.get<string>('BASEPATH'));
+  await app.listen(configService.get<number>('PORT'));
 }
 bootstrap();

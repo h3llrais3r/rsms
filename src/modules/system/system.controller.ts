@@ -1,14 +1,21 @@
 import { Body, Controller, Put } from '@nestjs/common';
+import { MethodNotAllowedException } from '@nestjs/common/exceptions';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from 'src/app.config';
 import { CommandRequest, CommandResponse } from '../../shared/models/command';
 import { SystemService } from './system.service';
 
 @Controller('system')
 export class SystemController {
-  constructor(private readonly systemService: SystemService) {}
+  constructor(private configService: ConfigService<AppConfig, true>, private readonly systemService: SystemService) {}
 
   @Put('command')
   public command(@Body() body: CommandRequest): CommandResponse {
-    return new CommandResponse(this.systemService.triggerCommand(body.command));
+    if (this.configService.get<boolean>('CUSTOM_COMMANDS_ENABLED')) {
+      return new CommandResponse(this.systemService.triggerCommand(body.command));
+    } else {
+      throw new MethodNotAllowedException('Custom commands are not allowed');
+    }
   }
 
   @Put('shutdown')
