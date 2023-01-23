@@ -1,0 +1,15 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "files.eol": "\n", // to be in sync with prettier settings
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode" // use prettier as default formatter to not have any conflict with default vscode formatter
+  }
+}
