@@ -18,18 +18,18 @@ export class SystemService {
     return this.commandService.executeCommand(command);
   }
 
-  triggerShutdown(options?: string[]): void {
+  triggerShutdown(): void {
     this.logger.log('Triggering system shutdown...');
-    this.commandService.executePlatformCommand(this.platform, CommandName.SHUTDOWN, options);
+    this.commandService.executePlatformCommand(this.platform, CommandName.SHUTDOWN);
   }
 
-  triggerRestart(options?: string[]): void {
+  triggerRestart(): void {
     this.logger.log('Triggering system restart...');
-    this.commandService.executePlatformCommand(this.platform, CommandName.RESTART, options);
+    this.commandService.executePlatformCommand(this.platform, CommandName.RESTART);
   }
 
-  triggerSleep(options?: string[]): void {
+  triggerSleep(): void {
     this.logger.log('Triggering system sleep...');
-    this.commandService.executePlatformCommand(this.platform, CommandName.SLEEP, options);
+    this.commandService.executePlatformCommand(this.platform, CommandName.SLEEP);
   }
 }
