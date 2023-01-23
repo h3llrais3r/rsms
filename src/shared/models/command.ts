@@ -52,8 +52,9 @@ export class Win32Command extends PlatformCommand {
   // Keep at first line to be sure it's initialized before the different commands
   private static values: Win32Command[] = [];
 
-  public static SHUTDOWN = new Win32Command(CommandName.SHUTDOWN, 'shutdown.exe /s');
-  public static RESTART = new Win32Command(CommandName.RESTART, 'shutdown.exe /r');
+  // All commands imply no timeout
+  public static SHUTDOWN = new Win32Command(CommandName.SHUTDOWN, 'shutdown.exe /s /t 0');
+  public static RESTART = new Win32Command(CommandName.RESTART, 'shutdown.exe /r /t 0');
   public static SLEEP = new Win32Command(CommandName.SLEEP, 'rundll32.exe powrprof.dll,SetSuspendState 0,1,0');
 
   constructor(name: CommandName, command: string) {
@@ -77,8 +78,8 @@ export class LinuxCommand extends PlatformCommand {
   private static values: LinuxCommand[] = [];
 
   // All commands imply no timeout
-  public static SHUTDOWN = new LinuxCommand(CommandName.SHUTDOWN, 'sudo shutdown -h');
-  public static RESTART = new LinuxCommand(CommandName.RESTART, 'sudo shutdown -r');
+  public static SHUTDOWN = new LinuxCommand(CommandName.SHUTDOWN, 'sudo shutdown -h 0');
+  public static RESTART = new LinuxCommand(CommandName.RESTART, 'sudo shutdown -r 0');
   public static SLEEP = new LinuxCommand(CommandName.SLEEP, 'sudo systemctl suspend');
 
   constructor(name: CommandName, command: string) {
