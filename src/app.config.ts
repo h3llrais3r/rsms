@@ -15,7 +15,7 @@ export function configFactory() {
     port: parseInt(process.env.PORT as string, 10) || 3000,
     globalPrefix: process.env.GLOBALPREFIX || 'api',
     logLevel: process.env.LOGLEVEL || 'info',
-    customCommandEnabled: process.env.CUSTOM_COMMANDS_ENABLED === 'true' || false // only allow 'true' value as true
+    customCommandEnabled: process.env.CUSTOM_COMMAND_ENABLED === 'true' || false // only allow 'true' value as true
   };
   return config;
 }
