@@ -2,5 +2,6 @@
   "printWidth": 180,
   "singleQuote": true,
   "trailingComma": "none",
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "endOfLine": "auto"
 }
