@@ -18,18 +18,26 @@ export class SystemService {
     return this.commandService.executeCommand(command);
   }
 
-  triggerShutdown(): void {
+  async triggerCommandAsync(command: string): Promise<void> {
+    this.logger.log('Triggering async system command...');
+    this.commandService.executeCommandAsync(command);
+  }
+
+  async triggerShutdown(): Promise<void> {
     this.logger.log('Triggering system shutdown...');
-    this.commandService.executePlatformCommand(this.platform, CommandName.SHUTDOWN);
+    // Always in async mode as we don't get feedback from the command in time
+    this.commandService.executePlatformCommandAsync(this.platform, CommandName.SHUTDOWN);
   }
 
-  triggerRestart(): void {
+  async triggerRestart(): Promise<void> {
     this.logger.log('Triggering system restart...');
-    this.commandService.executePlatformCommand(this.platform, CommandName.RESTART);
+    // Always in async mode as we don't get feedback from the command in time
+    this.commandService.executePlatformCommandAsync(this.platform, CommandName.RESTART);
   }
 
-  triggerSleep(): void {
+  async triggerSleep(): Promise<void> {
     this.logger.log('Triggering system sleep...');
-    this.commandService.executePlatformCommand(this.platform, CommandName.SLEEP);
+    // Always in async mode as we don't get feedback from the command in time
+    this.commandService.executePlatformCommandAsync(this.platform, CommandName.SLEEP);
   }
 }

@@ -18,18 +18,27 @@ export class SystemController {
     }
   }
 
+  @Put('command/async')
+  public async commandAsync(@Body() body: CommandRequest): Promise<void> {
+    if (this.configService.get<boolean>('customCommandEnabled')) {
+      this.systemService.triggerCommandAsync(body.command);
+    } else {
+      throw new MethodNotAllowedException('Custom commands are not allowed');
+    }
+  }
+
   @Put('shutdown')
-  public shutdown(): void {
+  public async shutdown(): Promise<void> {
     this.systemService.triggerShutdown();
   }
 
   @Put('restart')
-  public restart(): void {
+  public async restart(): Promise<void> {
     this.systemService.triggerRestart();
   }
 
   @Put('sleep')
-  public sleep(): void {
+  public async sleep(): Promise<void> {
     this.systemService.triggerSleep();
   }
 }
