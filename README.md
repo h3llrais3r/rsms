@@ -9,7 +9,7 @@ A simple rest api service to handle system services remotely.<br>
 
 - system shutdown
 - system restart
-- system sleep (attention: hibernate by default, unless you disable it by running `powercfg /hibernate off` with administrative rights)
+- system sleep (attention: hibernate by default, unless you disable it by running `powercfg /hibernate off` with administrative rights on your system)
 
 ### <ins>Linux</ins>
 
