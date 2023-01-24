@@ -11,7 +11,7 @@ export class SystemController {
 
   @Put('command')
   public command(@Body() body: CommandRequest): CommandResponse {
-    if (this.configService.get<boolean>('CUSTOM_COMMANDS_ENABLED')) {
+    if (this.configService.get<boolean>('customCommandEnabled')) {
       return new CommandResponse(this.systemService.triggerCommand(body.command));
     } else {
       throw new MethodNotAllowedException('Custom commands are not allowed');
