@@ -12,7 +12,7 @@ export function configFactory() {
   // To avoid this, we make camelCase versions of the variables and use those to fetch the values
   // This will also make sure that it return in the proper type (f.e. boolean)
   const config: AppConfig = {
-    port: parseInt(process.env.PORT as string, 10) || 3000,
+    port: parseInt(process.env.PORT as string, 10) || 7000,
     globalPrefix: process.env.GLOBALPREFIX || 'api',
     logLevel: process.env.LOGLEVEL || 'info',
     customCommandEnabled: process.env.CUSTOM_COMMAND_ENABLED === 'true' || false // only allow 'true' value as true
