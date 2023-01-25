@@ -1,18 +1,25 @@
+import { Transform } from 'class-transformer';
+import { IsBoolean, IsDefined, IsOptional, IsString } from 'class-validator';
+
 export class CommandRequest {
+  @IsDefined()
+  @IsString()
   public command: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => ['true', true].includes(value)) // See https://github.com/typestack/class-transformer/issues/550
+  public async?: boolean; // if true, the command is launched without waiting for completion and result
 }
 
 export class CommandResponse {
+  public command: string;
   public output: string;
 
-  constructor(output: string) {
+  constructor(command: string, output: string) {
+    this.command = command;
     this.output = output;
   }
-}
-
-export class CommandOutput {
-  public stdout: string;
-  public stderr: string;
 }
 
 export enum CommandName {

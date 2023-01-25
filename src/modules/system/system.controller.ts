@@ -10,18 +10,13 @@ export class SystemController {
   constructor(private configService: ConfigService<AppConfig, true>, private readonly systemService: SystemService) {}
 
   @Put('command')
-  public command(@Body() body: CommandRequest): CommandResponse {
+  public async commandAsync(@Body() body: CommandRequest): Promise<CommandResponse | void> {
     if (this.configService.get<boolean>('customCommandEnabled')) {
-      return new CommandResponse(this.systemService.triggerCommand(body.command));
-    } else {
-      throw new MethodNotAllowedException('Custom commands are not allowed');
-    }
-  }
-
-  @Put('command/async')
-  public async commandAsync(@Body() body: CommandRequest): Promise<void> {
-    if (this.configService.get<boolean>('customCommandEnabled')) {
-      this.systemService.triggerCommandAsync(body.command);
+      if (body.async) {
+        return this.systemService.triggerCommandAsync(body.command);
+      } else {
+        return new CommandResponse(body.command, this.systemService.triggerCommand(body.command));
+      }
     } else {
       throw new MethodNotAllowedException('Custom commands are not allowed');
     }
@@ -29,16 +24,16 @@ export class SystemController {
 
   @Put('shutdown')
   public async shutdown(): Promise<void> {
-    this.systemService.triggerShutdown();
+    return this.systemService.triggerShutdown();
   }
 
   @Put('restart')
   public async restart(): Promise<void> {
-    this.systemService.triggerRestart();
+    return this.systemService.triggerRestart();
   }
 
   @Put('sleep')
   public async sleep(): Promise<void> {
-    this.systemService.triggerSleep();
+    return this.systemService.triggerSleep();
   }
 }
