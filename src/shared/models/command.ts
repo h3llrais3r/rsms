@@ -80,6 +80,33 @@ export class Win32Command extends PlatformCommand {
   }
 }
 
+// Requires the windows sysinternals commands being added to you path!
+// See https://learn.microsoft.com/en-gb/sysinternals/downloads/
+export class Win32SysInternalsCommand extends PlatformCommand {
+  // Keep at first line to be sure it's initialized before the different commands
+  private static values: Win32SysInternalsCommand[] = [];
+
+  // All commands imply no timeout
+  public static SHUTDOWN = new Win32SysInternalsCommand(CommandName.SHUTDOWN, 'psshutdown.exe -s -t 0');
+  public static RESTART = new Win32SysInternalsCommand(CommandName.RESTART, 'psshutdown.exe -r -t 0');
+  public static SLEEP = new Win32SysInternalsCommand(CommandName.SLEEP, 'psshutdown -d -t 0');
+
+  constructor(name: CommandName, command: string) {
+    super(name, command);
+    Win32SysInternalsCommand.values.push(this);
+  }
+
+  // Helper to find the correct command based on the command name
+  public static fromName(name: CommandName): Win32SysInternalsCommand {
+    for (const cmd of Win32SysInternalsCommand.values) {
+      if (cmd.name === name) {
+        return cmd;
+      }
+    }
+    throw new Error(`Unsupported command name: ${name}`);
+  }
+}
+
 export class LinuxCommand extends PlatformCommand {
   // Keep at first line to be sure it's initialized before the different commands
   private static values: LinuxCommand[] = [];

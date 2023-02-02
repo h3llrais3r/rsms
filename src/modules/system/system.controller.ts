@@ -1,7 +1,7 @@
 import { Body, Controller, Put } from '@nestjs/common';
 import { MethodNotAllowedException } from '@nestjs/common/exceptions';
 import { ConfigService } from '@nestjs/config';
-import { AppConfig } from 'src/app.config';
+import { AppConfig } from '../../app.config';
 import { CommandRequest, CommandResponse } from '../../shared/models/command';
 import { SystemService } from './system.service';
 

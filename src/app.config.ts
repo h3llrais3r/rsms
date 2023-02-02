@@ -3,6 +3,7 @@ export class AppConfig {
   globalPrefix: string;
   logLevel: string;
   customCommandEnabled: boolean;
+  win32SysInternalsEnabled: boolean;
 }
 
 export function configFactory() {
@@ -15,7 +16,8 @@ export function configFactory() {
     port: parseInt(process.env.PORT as string, 10) || 7000,
     globalPrefix: process.env.GLOBALPREFIX || 'api',
     logLevel: process.env.LOGLEVEL || 'info',
-    customCommandEnabled: process.env.CUSTOM_COMMAND_ENABLED === 'true' || false // only allow 'true' value as true
+    customCommandEnabled: process.env.CUSTOM_COMMAND_ENABLED === 'true' || false, // only allow 'true' value as true
+    win32SysInternalsEnabled: process.env.WIN32_SYSINTERNALS_ENABLED === 'true' || false // only allow 'true' value as true
   };
   return config;
 }

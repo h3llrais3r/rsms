@@ -1,5 +1,7 @@
 import { Injectable, InternalServerErrorException, Logger, NotImplementedException } from '@nestjs/common';
-import { CommandName, LinuxCommand, Win32Command } from '../models/command';
+import { ConfigService } from '@nestjs/config';
+import { AppConfig } from '../../app.config';
+import { CommandName, LinuxCommand, Win32Command, Win32SysInternalsCommand } from '../models/command';
 import { CommandExecutor } from '../utils/command-executor';
 
 @Injectable()
@@ -7,7 +9,7 @@ export class CommandService {
   private logger: Logger;
   private commandExecutor: CommandExecutor;
 
-  constructor() {
+  constructor(private configService: ConfigService<AppConfig, true>) {
     this.logger = new Logger(this.constructor.name);
     this.commandExecutor = new CommandExecutor();
   }
@@ -30,7 +32,7 @@ export class CommandService {
 
   public executePlatformCommand(platform: NodeJS.Platform, commandName: CommandName, options?: string[]): string {
     if (platform === 'win32') {
-      const win32Command = Win32Command.fromName(commandName);
+      const win32Command = this.getWin32Command(commandName);
       return this.executeCommand(win32Command.command, options);
     } else if (platform === 'linux') {
       const linuxCommand = LinuxCommand.fromName(commandName);
@@ -42,7 +44,7 @@ export class CommandService {
 
   public executePlatformCommandAsync(platform: NodeJS.Platform, commandName: CommandName, options?: string[]): void {
     if (platform === 'win32') {
-      const win32Command = Win32Command.fromName(commandName);
+      const win32Command = this.getWin32Command(commandName);
       this.executeCommandAsync(win32Command.command, options);
     } else if (platform === 'linux') {
       const linuxCommand = LinuxCommand.fromName(commandName);
@@ -50,5 +52,15 @@ export class CommandService {
     } else {
       throw new NotImplementedException(`Unsupported platform: ${platform}`);
     }
+  }
+
+  private getWin32Command(commandName: CommandName): Win32Command | Win32SysInternalsCommand {
+    let win32Command: Win32Command | Win32SysInternalsCommand;
+    if (this.configService.get('win32SysInternalsEnabled')) {
+      win32Command = Win32SysInternalsCommand.fromName(commandName);
+    } else {
+      win32Command = Win32Command.fromName(commandName);
+    }
+    return win32Command;
   }
 }
