@@ -87,9 +87,9 @@ export class Win32SysInternalsCommand extends PlatformCommand {
   private static values: Win32SysInternalsCommand[] = [];
 
   // All commands imply no timeout
-  public static SHUTDOWN = new Win32SysInternalsCommand(CommandName.SHUTDOWN, 'psshutdown.exe -s -t 0');
-  public static RESTART = new Win32SysInternalsCommand(CommandName.RESTART, 'psshutdown.exe -r -t 0');
-  public static SLEEP = new Win32SysInternalsCommand(CommandName.SLEEP, 'psshutdown -d -t 0');
+  public static SHUTDOWN = new Win32SysInternalsCommand(CommandName.SHUTDOWN, 'psshutdown.exe -accepteula -s -t 0');
+  public static RESTART = new Win32SysInternalsCommand(CommandName.RESTART, 'psshutdown.exe -accepteula -r -t 0');
+  public static SLEEP = new Win32SysInternalsCommand(CommandName.SLEEP, 'psshutdown -accepteula -d -t 0');
 
   constructor(name: CommandName, command: string) {
     super(name, command);
